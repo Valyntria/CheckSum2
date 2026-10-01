@@ -1,0 +1,46 @@
+{
+  "name": "checksum",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:core": "cargo test --manifest-path src-tauri/Cargo.toml -p checksum-core --locked",
+    "test:release": "node --test scripts/release-assets.test.mjs",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\" \"scripts/*.mjs\" \"*.{json,ts}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,css}\" \"tests/**/*.{ts,tsx}\" \"scripts/*.mjs\" \"*.{json,ts}\""
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^5.11.16",
+    "@mui/material": "^5.13.7",
+    "@tanstack/react-virtual": "^3.14.13",
+    "@tauri-apps/api": "^1.5.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1.5.9",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^24.19.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "jsdom": "^30.1.1",
+    "prettier": "^3.9.9",
+    "typescript": "^5.0.2",
+    "vite": "^7.3.6",
+    "vitest": "^5.0.3"
+  },
+  "engines": {
+    "node": "^22.22.2 || >=24.15.0"
+  }
+}
