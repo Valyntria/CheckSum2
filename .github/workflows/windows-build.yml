@@ -1,0 +1,57 @@
+name: Windows build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v5
+
+      - name: Set up Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          cache: npm
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install installer tools
+        run: choco install -y nsis wixtoolset
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Test frontend
+        run: npm test
+
+      - name: Test Rust core
+        run: cargo test --manifest-path src-tauri/Cargo.toml -p checksum-core --locked
+
+      - name: Build EXE and MSI installers
+        run: npm run tauri build -- --ci --bundles nsis,msi
+
+      - name: Package portable executable
+        shell: pwsh
+        run: |
+          Compress-Archive `
+            -Path src-tauri/target/release/checksum.exe `
+            -DestinationPath CheckSum2-portable.zip `
+            -Force
+
+      - name: Upload Windows downloads
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: CheckSum2-Windows
+          if-no-files-found: error
+          path: |
+            src-tauri/target/release/bundle/nsis/*.exe
+            src-tauri/target/release/bundle/msi/*.msi
+            CheckSum2-portable.zip
