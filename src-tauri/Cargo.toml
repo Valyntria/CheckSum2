@@ -1,0 +1,35 @@
+[package]
+name = "checksum"
+version = "1.0.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+tauri-build = { version = "1.5", features = [] }
+
+[dependencies]
+checksum-core = { path = "core" }
+tauri = { version = "1.8", features = ["dialog-open", "dialog-save"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tauri-plugin-window-state = "0.1"
+
+[workspace]
+members = ["core"]
+resolver = "2"
+
+[features]
+# this feature is used for production builds or when `devPath` points to the filesystem
+# DO NOT REMOVE!!
+custom-protocol = ["tauri/custom-protocol"]
+
+[patch.crates-io]
+wry = { path = "vendor/wry" }
+
+[profile.release]
+opt-level = 3
+lto = "fat" 
+codegen-units = 1
+panic = "abort"
+strip = true
