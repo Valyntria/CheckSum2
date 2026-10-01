@@ -6,10 +6,12 @@ package {{package}}
 
 import android.webkit.*
 
-class Ipc {
-    @JavascriptInterface
-    fun postMessage(message: String) {
-        this.ipc(message)
+class RustWebViewClient: WebViewClient() {
+    override fun shouldInterceptRequest(
+        view: WebView,
+        request: WebResourceRequest
+    ): WebResourceResponse? {
+        return handleRequest(request)
     }
 
     companion object {
@@ -18,7 +20,7 @@ class Ipc {
         }
     }
 
-    private external fun ipc(message: String)
+    private external fun handleRequest(request: WebResourceRequest): WebResourceResponse?
 
     {{class-extension}}
 }
