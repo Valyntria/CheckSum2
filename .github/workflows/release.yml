@@ -132,7 +132,7 @@ jobs:
       - name: Stage unique assets and portable SHA256 checksums
         run: node scripts/release-assets.mjs release-assets release-flat
       - name: Create draft release and attach assets
-        uses: softprops/action-gh-release@v2.4.1
+        uses: softprops/action-gh-release@v3.0.3
         with:
           draft: true
           tag_name: ${{ inputs.tag || github.ref_name }}
